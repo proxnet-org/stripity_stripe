@@ -40,7 +40,11 @@ defmodule Stripe.PaymentIntent do
 
   @type transfer_data :: %{
           :destination => String.t()
-        }
+  }
+
+  @type automatic_payment_methods :: %{
+    enabled: boolean()
+  }
 
   @type t :: %__MODULE__{
           id: Stripe.id(),
@@ -50,6 +54,7 @@ defmodule Stripe.PaymentIntent do
           amount_received: non_neg_integer,
           application: Stripe.id() | nil,
           application_fee_amount: non_neg_integer | nil,
+          automatic_payment_methods: automatic_payment_methods | nil,
           canceled_at: Stripe.timestamp() | nil,
           cancellation_reason: String.t() | nil,
           capture_method: String.t(),
@@ -89,6 +94,7 @@ defmodule Stripe.PaymentIntent do
     :amount_received,
     :application,
     :application_fee_amount,
+    :automatic_payment_methods,
     :canceled_at,
     :cancellation_reason,
     :capture_method,
@@ -132,6 +138,7 @@ defmodule Stripe.PaymentIntent do
                  :amount => pos_integer,
                  :currency => String.t(),
                  optional(:application_fee_amount) => non_neg_integer,
+                 optional(:automatic_payment_methods) => automatic_payment_methods,
                  optional(:capture_method) => String.t(),
                  optional(:confirm) => boolean,
                  optional(:customer) => Stripe.id() | Stripe.Customer.t(),
